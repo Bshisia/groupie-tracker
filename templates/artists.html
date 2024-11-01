@@ -1,145 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Groupie Tracker</title>
-    <link rel="stylesheet" href="/static/css/index.css" />
-    <link rel="icon" href="/static/img/fav.ico" type="image/x-icon" />
-  </head>
-  <body>
-    <header>
-      <nav class="header-container">
-        <div class="title-container">
-          <a href="/">Groupie Tracker</a>
-        </div>
-        <div class="search-container">
-          <input
-            type="text"
-            id="search-bar"
-            placeholder="Search..."
-            oninput="filterArtists()"
-            autocomplete="off"
-          />
-          <svg
-            class="search-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <div class="suggestions"></div>
-        </div>
-        <button class="filter-button" onclick="toggleFilters()">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polygon
-              points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
-            ></polygon>
-          </svg>
-        </button>
-      </nav>
-    </header>
-    <div class="filter-container">
-      <div class="filter-menu" id="filterMenu">
-          <!-- Range Filter for Creation Date -->
-          <div class="filter-option">
-              <label for="creationRange">Creation Date</label>
-              <input type="range" id="creationRange" min="1960" max="2024" oninput="updateCreationRangeLabel(this.value)" />
-              <span id="creationRangeLabel">2024</span>
-          </div>
 
-          <!-- Checkbox Filter for Locations -->
-          <div class="filter-option">
-            <label for="creationYearRange">Creation Year Range</label>
-            <input
-              type="range"
-              id="startYear"
-              min="1960"
-              max="2024"
-              value="1960"
-              oninput="updateYearRangeDisplay()"
-            />
-            <span id="startYearDisplay">1960</span>
-            <input
-              type="range"
-              id="endYear"
-              min="1960"
-              max="2024"
-              value="2024"
-              oninput="updateYearRangeDisplay()"
-            />
-            <span id="endYearDisplay">2024</span>
-          </div>
-          
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Groupie Tracker</title>
+  <link rel="stylesheet" href="/static/css/index.css" />
+  <link rel="icon" href="/static/img/fav.ico" type="image/x-icon" />
+</head>
 
-          <!-- Filter by Number of Members -->
-          <div class="filter-option">
-              <label for="membersFilter">Number of Members</label>
-              <select id="membersFilter">
-                  <option value="">Any Size</option>
-                  <option value="1">Solo</option>
-                  <option value="2">Duo</option>
-                  <option value="3">Trio</option>
-                  <option value="4">4 Members</option>
-                  <option value="5+">5+ Members</option>
-              </select>
-          </div>
-
-          <!-- Apply Filters Button -->
-          <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
+<body>
+  <header>
+    <nav class="header-container">
+      <div class="title-container">
+        <a href="/">Groupie Tracker</a>
       </div>
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." oninput="filterArtists()" autocomplete="off" />
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <div class="suggestions"></div>
+      </div>
+      <button class="filter-button" onclick="toggleFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+      </button>
+    </nav>
+  </header>
+  <div class="filter-container">
+    <div class="filter-menu" id="filterMenu">
+      <!-- Range Filter for Creation Date -->
+      <div class="filter-option">
+        <label for="creationRange">Creation Date</label>
+        <input type="range" id="creationRange" min="1960" max="2024" oninput="updateCreationRangeLabel(this.value)" />
+        <span id="creationRangeLabel">2024</span>
+      </div>
+
+      <!-- Checkbox Filter for Locations -->
+      <div class="filter-option">
+        <label for="creationYearRange">Creation Year Range</label>
+        <input type="range" id="startYear" min="1960" max="2024" value="1960" oninput="updateYearRangeDisplay()" />
+        <span id="startYearDisplay">1960</span>
+        <input type="range" id="endYear" min="1960" max="2024" value="2024" oninput="updateYearRangeDisplay()" />
+        <span id="endYearDisplay">2024</span>
+      </div>
+
+
+      <div class="filter-option">
+        <label for="membersFilter">Number of Members</label><br>
+        <input type="checkbox" id="1" name="members" value="1">1<br>
+        <input type="checkbox" id="2" name="members" value="2">2<br>
+        <input type="checkbox" id="3" name="members" value="3">3<br>
+      </div>
+      
+
+      <!-- Apply Filters Button -->
+      <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
+    </div>
   </div>
-    <main class="main container">
-      <div class="grid" id="artist-grid">
-        {{ if . }} {{ range . }}
-        <a
-          href="/details/{{.Id}}"
-          class="artist-card"
-          data-id="{{.Id}}"
-          data-name="{{.Name}}"
-          data-members="{{range $index, $member := .Members}}{{if $index}},{{end}}{{$member}}{{end}}"
-          data-locations="{{range $index, $location := .Locations}}{{if $index}},{{end}}{{$location}}{{end}}"
-          data-firstalbum="{{.FirstAlbum}}"
-          data-creationdate="{{.CreationDate}}"
-        >
-          <img src="{{.Image}}" alt="{{.Name}}'s image" />
-          <h2>{{.Name}}</h2>
-          <div>
-            <p>First Album: {{.FirstAlbum}}</p>
-            <p>Creation Date: {{.CreationDate}}</p>
-          </div>
-        </a>
-        {{ end }} {{ else }}
-        <p>No results found.</p>
-        {{ end }}
-      </div>
-      <!-- Pagination Controls -->
-      <div class="pagination">
-        <button id="prev-page" onclick="changePage(-1)" disabled>
-          Previous
-        </button>
-        <span id="page-info"></span>
-        <button id="next-page" onclick="changePage(1)">Next</button>
-      </div>
-    </main>
-    <script src="../static/js/script.js"></script>
-  </body>
+  <main class="main container">
+    <div class="grid" id="artist-grid">
+      {{ if . }} {{ range . }}
+      <a href="/details/{{.Id}}" class="artist-card" data-id="{{.Id}}" data-name="{{.Name}}"
+        data-members="{{range $index, $member := .Members}}{{if $index}},{{end}}{{$member}}{{end}}"
+        data-locations="{{range $index, $location := .Locations}}{{if $index}},{{end}}{{$location}}{{end}}"
+        data-firstalbum="{{.FirstAlbum}}" data-creationdate="{{.CreationDate}}">
+        <img src="{{.Image}}" alt="{{.Name}}'s image" />
+        <h2>{{.Name}}</h2>
+        <div>
+          <p>First Album: {{.FirstAlbum}}</p>
+          <p>Creation Date: {{.CreationDate}}</p>
+        </div>
+      </a>
+      {{ end }} {{ else }}
+      <p>No results found.</p>
+      {{ end }}
+    </div>
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button id="prev-page" onclick="changePage(-1)" disabled>
+        Previous
+      </button>
+      <span id="page-info"></span>
+      <button id="next-page" onclick="changePage(1)">Next</button>
+    </div>
+  </main>
+  <script src="../static/js/script.js"></script>
+</body>
+
 </html>
