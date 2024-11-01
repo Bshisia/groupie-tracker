@@ -36,12 +36,77 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <div class="suggestions">
-            <!-- Search suggestions will appear here -->
-          </div>
+          <div class="suggestions"></div>
         </div>
+        <button class="filter-button" onclick="toggleFilters()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon
+              points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+            ></polygon>
+          </svg>
+        </button>
       </nav>
     </header>
+    <div class="filter-container">
+      <div class="filter-menu" id="filterMenu">
+          <!-- Range Filter for Creation Date -->
+          <div class="filter-option">
+              <label for="creationRange">Creation Date</label>
+              <input type="range" id="creationRange" min="1960" max="2024" oninput="updateCreationRangeLabel(this.value)" />
+              <span id="creationRangeLabel">2024</span>
+          </div>
+
+          <!-- Checkbox Filter for Locations -->
+          <div class="filter-option">
+            <label for="creationYearRange">Creation Year Range</label>
+            <input
+              type="range"
+              id="startYear"
+              min="1960"
+              max="2024"
+              value="1960"
+              oninput="updateYearRangeDisplay()"
+            />
+            <span id="startYearDisplay">1960</span>
+            <input
+              type="range"
+              id="endYear"
+              min="1960"
+              max="2024"
+              value="2024"
+              oninput="updateYearRangeDisplay()"
+            />
+            <span id="endYearDisplay">2024</span>
+          </div>
+          
+
+          <!-- Filter by Number of Members -->
+          <div class="filter-option">
+              <label for="membersFilter">Number of Members</label>
+              <select id="membersFilter">
+                  <option value="">Any Size</option>
+                  <option value="1">Solo</option>
+                  <option value="2">Duo</option>
+                  <option value="3">Trio</option>
+                  <option value="4">4 Members</option>
+                  <option value="5+">5+ Members</option>
+              </select>
+          </div>
+
+          <!-- Apply Filters Button -->
+          <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
+      </div>
+  </div>
     <main class="main container">
       <div class="grid" id="artist-grid">
         {{ if . }} {{ range . }}
