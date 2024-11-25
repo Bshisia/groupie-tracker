@@ -10,11 +10,13 @@
 </head>
 
 <body>
-  <header>
-    <nav class="header-container">
-      <div class="title-container">
-        <a href="/">Groupie Tracker</a>
-      </div>
+  <!-- HTML -->
+<header>
+  <nav class="header-container">
+    <div class="title-container">
+      <a href="/">Groupie Tracker</a>
+    </div>
+    <div class="controls-container">
       <div class="search-container">
         <input type="text" id="search-bar" placeholder="Search..." oninput="filterArtists()" autocomplete="off" />
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -29,9 +31,12 @@
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
         </svg>
+        <span>Filter</span>
       </button>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
+ 
   <div class="filter-container">
     <div class="filter-menu" id="filterMenu">
       <!-- Range Filter for Creation Date -->
