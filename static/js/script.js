@@ -23,9 +23,7 @@ const changePage = (direction) => {
 // Initially display the first page
 showPage(currentPage);
 const filterArtists = () => {
-  const searchQuery = document
-    .getElementById("search-bar")
-    .value.toLowerCase();
+  const searchQuery = document.getElementById("search-bar").value.toLowerCase();
   const container = document.querySelector(".suggestions");
   container.innerHTML = "";
   if (searchQuery === "") {
@@ -128,67 +126,22 @@ function toggleFilters() {
 }
 
 // Close filters when clicking outside
-document.addEventListener('click', (event) => {
-  const filterMenu = document.getElementById('filterMenu');
-  const filterButton = event.target.closest('.filter-button');
-  const filterMenuElement = event.target.closest('.filter-menu');
-  
-  if (!filterButton && !filterMenuElement && filterMenu.classList.contains('active')) {
-      filterMenu.classList.remove('active');
+document.addEventListener("click", (event) => {
+  const filterMenu = document.getElementById("filterMenu");
+  const filterButton = event.target.closest(".filter-button");
+  const filterMenuElement = event.target.closest(".filter-menu");
+
+  if (
+    !filterButton &&
+    !filterMenuElement &&
+    filterMenu.classList.contains("active")
+  ) {
+    filterMenu.classList.remove("active");
   }
 });
 
-// Populate years in filter (add this to your initialization code)
-function populateYearFilter() {
-  const yearFilter = document.getElementById('yearFilter');
-  const currentYear = new Date().getFullYear();
-  const startYear = 1960; // You can adjust this
-
-  for (let year = currentYear; year >= startYear; year--) {
-      const option = document.createElement('option');
-      option.value = year;
-      option.textContent = year;
-      yearFilter.appendChild(option);
-  }
-}
-
-// Modified filterArtists function to include filter criteria
-// Apply filters based on selected values
-function applyFilters() {
-  const creationYear = document.getElementById("creationRange").value;
-  const memberCount = document.getElementById("membersFilter").value;
-  const locations = Array.from(document.querySelectorAll("input[name='location']:checked")).map(loc => loc.value);
-  
-  artistCards.forEach(card => {
-      let displayCard = true;
-      
-      // Filter by creation date
-      if (creationYear) {
-          displayCard = card.dataset.creationdate <= creationYear;
-      }
-      
-      // Filter by number of members
-      if (displayCard && memberCount) {
-          const cardMemberCount = parseInt(card.dataset.members.split(",").length);
-          displayCard = (memberCount === "5+" ? cardMemberCount >= 5 : cardMemberCount === parseInt(memberCount));
-      }
-      
-      // Filter by locations
-      if (displayCard && locations.length > 0) {
-          const cardLocations = card.dataset.locations.split(",");
-          displayCard = locations.some(location => cardLocations.includes(location));
-      }
-      
-      // Toggle card display based on filters
-      card.style.display = displayCard ? "block" : "none";
-  });
-  
-  // Hide filter menu after applying filters
-  document.getElementById("filterMenu").classList.remove("active");
-}
-
 // Add this to your initialization
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   initializeArtists();
   populateYearFilter();
 });
