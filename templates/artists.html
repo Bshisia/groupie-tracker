@@ -11,62 +11,113 @@
 
 <body>
   <!-- HTML -->
-<header>
-  <nav class="header-container">
-    <div class="title-container">
-      <a href="/">Groupie Tracker</a>
-    </div>
-    <div class="controls-container">
-      <div class="search-container">
-        <input type="text" id="search-bar" placeholder="Search..." oninput="filterArtists()" autocomplete="off" />
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <div class="suggestions"></div>
+  <header>
+    <nav class="header-container">
+      <div class="title-container">
+        <a href="/">Groupie Tracker</a>
       </div>
-      <button class="filter-button" onclick="toggleFilters()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-        </svg>
-        <span>Filter</span>
-      </button>
-    </div>
-  </nav>
-</header>
- 
+      <div class="controls-container">
+        <div class="search-container">
+          <input type="text" id="search-bar" placeholder="Search..." oninput="filterArtists()" autocomplete="off" />
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <div class="suggestions"></div>
+        </div>
+        <button class="filter-button" onclick="toggleFilters()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          <span>Filter</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
   <div class="filter-container">
-    <div class="filter-menu" id="filterMenu">
-      <!-- Range Filter for Creation Date -->
+    <form action="/filter" method="GET" class="filter-menu" id="filterMenu">
+      <!-- Creation Date Range -->
       <div class="filter-option">
-        <label for="creationRange">Creation Date</label>
-        <input type="range" id="creationRange" min="1960" max="2024" oninput="updateCreationRangeLabel(this.value)" />
-        <span id="creationRangeLabel">2024</span>
+        <label>Creation Date Range</label>
+        <div class="range-container">
+          <input type="range" name="creationDateStart" min="1950" max="2024" value="1950" />
+          <span id="creationDateStartValue" class="range-display">1950</span>
+          <span>to</span>
+          <input type="range" name="creationDateEnd" min="1950" max="2024" value="2024" />
+          <span id="creationDateEndValue" class="range-display">2024</span>
+        </div>
       </div>
 
-      <!-- Checkbox Filter for Locations -->
+      <!-- Creation Year Range -->
       <div class="filter-option">
-        <label for="creationYearRange">Creation Year Range</label>
-        <input type="range" id="startYear" min="1960" max="2024" value="1960" oninput="updateYearRangeDisplay()" />
-        <span id="startYearDisplay">1960</span>
-        <input type="range" id="endYear" min="1960" max="2024" value="2024" oninput="updateYearRangeDisplay()" />
-        <span id="endYearDisplay">2024</span>
+        <label>Creation Year Range</label>
+        <div class="range-container">
+          <input type="range" name="creationYearStart" min="1950" max="2024" value="1950" />
+          <span id="creationYearStartValue" class="range-display">1950</span>
+          <span>to</span>
+          <input type="range" name="creationYearEnd" min="1950" max="2024" value="2024" />
+          <span id="creationYearEndValue" class="range-display">2024</span>
+        </div>
       </div>
 
-
+      <!-- Number of Members -->
       <div class="filter-option">
-        <label for="membersFilter">Number of Members</label><br>
-        <input type="checkbox" id="1" name="members" value="1">1<br>
-        <input type="checkbox" id="2" name="members" value="2">2<br>
-        <input type="checkbox" id="3" name="members" value="3">3<br>
+        <label>Number of Members</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" name="members1" name="members" value="1" />
+            <label for="members1">1 member</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members2" name="members" value="2" />
+            <label for="members2">2 members</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members3" name="members" value="3" />
+            <label for="members3">3 members</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members4" name="members" value="4" />
+            <label for="members4">4 members</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members5" name="members" value="5" />
+            <label for="members5">5 members</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members6" name="members" value="6" />
+            <label for="members6">6 members</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members7" name="members" value="7" />
+            <label for="members7">7 members</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="members8plus" name="members" value="8+" />
+            <label for="members8plus">8+ members</label>
+          </div>
+        </div>
       </div>
-      
 
-      <!-- Apply Filters Button -->
-      <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
-    </div>
+      <!-- Location -->
+      <div class="filter-option">
+        <label for="location">Location</label>
+        <input type="text" name="location" placeholder="Enter location" />
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-group">
+        <button class="apply-filters" type="submit">
+          Apply Filters
+        </button>
+        <button class="reset-filters" onclick="resetFilters()">
+          Reset Filters
+        </button>
+      </div>
+    </form>
   </div>
   <main class="main container">
     <div class="grid" id="artist-grid">
