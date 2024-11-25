@@ -126,16 +126,16 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-.filter-option select:focu/* Controls Container */
+.filter-option select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+/* Controls Container */
 .controls-container {
   display: flex;
   align-items: center;
   gap: 1rem;
-}s {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
 }
-
 .apply-filters {
   width: 100%;
   padding: 8px;
