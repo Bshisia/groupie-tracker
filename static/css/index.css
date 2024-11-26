@@ -67,6 +67,11 @@
   flex-direction: column;
 }
 
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
 /* Range input styling */
 input[type="range"] {
   width: 100%;
