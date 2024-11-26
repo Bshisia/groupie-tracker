@@ -19,6 +19,8 @@ type Artist struct {
 	ConcertDates []string
 }
 
+var ModArtists []Artist
+
 func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 	artists, err := utils.GetArtists(utils.GetApiIndex().Artists)
 	if err != nil {
@@ -35,7 +37,7 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
-	var modArtists []Artist
+
 	for i, v := range artists {
 		var modArtist Artist
 		modArtist.Id = v.Id
@@ -46,7 +48,7 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		modArtist.FirstAlbum = v.FirstAlbum
 		modArtist.Locations = locations[i].Locations
 		modArtist.ConcertDates = dates[i].Dates
-		modArtists = append(modArtists, modArtist)
+		ModArtists = append(ModArtists, modArtist)
 	}
 	tmpl, err := template.ParseFiles("templates/artists.html")
 	if err != nil {
@@ -54,5 +56,5 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
-	tmpl.Execute(w, modArtists)
+	tmpl.Execute(w, ModArtists)
 }
