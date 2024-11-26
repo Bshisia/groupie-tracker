@@ -37,6 +37,7 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
+	var modArtists []Artist
 
 	for i, v := range artists {
 		var modArtist Artist
@@ -48,8 +49,9 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		modArtist.FirstAlbum = v.FirstAlbum
 		modArtist.Locations = locations[i].Locations
 		modArtist.ConcertDates = dates[i].Dates
-		ModArtists = append(ModArtists, modArtist)
+		modArtists = append(modArtists, modArtist)
 	}
+	ModArtists = modArtists
 	tmpl, err := template.ParseFiles("templates/artists.html")
 	if err != nil {
 		fmt.Printf("error: %v", err)
