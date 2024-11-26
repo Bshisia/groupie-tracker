@@ -39,7 +39,7 @@
 
   <div class="filter-container">
     <form action="/filter" method="GET" class="filter-menu" id="filterMenu">
-      <!-- Creation Date Range -->
+
       <div class="filter-option">
         <label>Creation Date Range</label>
         <div class="range-container">
@@ -51,15 +51,14 @@
         </div>
       </div>
 
-      <!-- Creation Year Range -->
       <div class="filter-option">
-        <label>Creation Year Range</label>
+        <label>First Album Range</label>
         <div class="range-container">
-          <input type="range" name="creationYearStart" min="1950" max="2024" value="1950" />
-          <span id="creationYearStartValue" class="range-display">1950</span>
+          <input type="range" name="firstAlbumStart" min="1950" max="2024" value="1950" />
+          <span id="firstAlbumStartValue" class="range-display">1950</span>
           <span>to</span>
-          <input type="range" name="creationYearEnd" min="1950" max="2024" value="2024" />
-          <span id="creationYearEndValue" class="range-display">2024</span>
+          <input type="range" name="firstAlbumEnd" min="1950" max="2024" value="2024" />
+          <span id="firstAlbumEndValue" class="range-display">2024</span>
         </div>
       </div>
 
@@ -68,35 +67,35 @@
         <label>Number of Members</label>
         <div class="checkbox-group">
           <div class="checkbox-item">
-            <input type="checkbox" name="members1" name="members" value="1" />
+            <input type="checkbox" name="members1" />
             <label for="members1">1 member</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members2" name="members" value="2" />
+            <input type="checkbox" name="members2" />
             <label for="members2">2 members</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members3" name="members" value="3" />
+            <input type="checkbox" name="members3" />
             <label for="members3">3 members</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members4" name="members" value="4" />
+            <input type="checkbox" name="members4" />
             <label for="members4">4 members</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members5" name="members" value="5" />
+            <input type="checkbox" name="members5" />
             <label for="members5">5 members</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members6" name="members" value="6" />
+            <input type="checkbox" name="members6" />
             <label for="members6">6 members</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members7" name="members" value="7" />
+            <input type="checkbox" name="members7" />
             <label for="members7">7 members</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members8plus" name="members" value="8+" />
+            <input type="checkbox" name="members8"  />
             <label for="members8plus">8+ members</label>
           </div>
         </div>
