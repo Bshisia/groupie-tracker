@@ -4,69 +4,159 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"text/template"
 )
 
-func HandleFilters(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
+// FilterParams holds the filter criteria
+type FilterParams struct {
+	CreationDateStart int
+	CreationDateEnd   int
+	FirstAlbumStart   int
+	FirstAlbumEnd     int
+	Location          string
+	SelectedMembers   []int
+}
 
-	creationDateStart, err := strconv.Atoi(r.FormValue("creationDateStart"))
-	if err != nil {
-		ErrorHandler(w, r, http.StatusBadRequest)
+// ParseFilterParams extracts and validates filter parameters from the request
+func ParseFilterParams(r *http.Request) (*FilterParams, error) {
+	if err := r.ParseForm(); err != nil {
+		return nil, fmt.Errorf("failed to parse form: %w", err)
 	}
 
-	creationDateEnd, err := strconv.Atoi(r.FormValue("creationDateEnd"))
+	params := &FilterParams{}
+
+	// Parse date ranges
+	var err error
+	params.CreationDateStart, err = strconv.Atoi(r.FormValue("creationDateStart"))
 	if err != nil {
-		ErrorHandler(w, r, http.StatusBadRequest)
+		return nil, fmt.Errorf("invalid creation date start: %w", err)
 	}
 
-	firstAlbumStart, err := strconv.Atoi(r.FormValue("firstAlbumStart"))
+	params.CreationDateEnd, err = strconv.Atoi(r.FormValue("creationDateEnd"))
 	if err != nil {
-		ErrorHandler(w, r, http.StatusBadRequest)
+		return nil, fmt.Errorf("invalid creation date end: %w", err)
 	}
 
-	firstAlbumEnd, err := strconv.Atoi(r.FormValue("firstAlbumEnd"))
+	params.FirstAlbumStart, err = strconv.Atoi(r.FormValue("firstAlbumStart"))
 	if err != nil {
-		ErrorHandler(w, r, http.StatusBadRequest)
+		return nil, fmt.Errorf("invalid first album start: %w", err)
 	}
-	fmt.Println(creationDateStart, creationDateEnd, firstAlbumStart, firstAlbumEnd)
 
+	params.FirstAlbumEnd, err = strconv.Atoi(r.FormValue("firstAlbumEnd"))
+	if err != nil {
+		return nil, fmt.Errorf("invalid first album end: %w", err)
+	}
+
+	// Clean location string
+	params.Location = cleanString(r.FormValue("location"))
+
+	// Parse member checkboxes
+	params.SelectedMembers = parseSelectedMembers(r)
+
+	return params, nil
+}
+
+// cleanString normalizes a string by trimming spaces and replacing special characters
+func cleanString(s string) string {
+	s = strings.ToLower(strings.TrimSpace(s))
+	s = strings.ReplaceAll(s, "-", " ")
+	s = strings.ReplaceAll(s, ",", "")
+	return strings.ReplaceAll(s, "_", " ")
+}
+
+// parseSelectedMembers extracts selected member counts from checkboxes
+func parseSelectedMembers(r *http.Request) []int {
 	var selected []int
-
-	// Check each possible member checkbox
 	for i := 1; i <= 8; i++ {
-		checkboxName := "members" + strconv.Itoa(i)
-		if r.FormValue(checkboxName) == "on" {
+		if r.FormValue(fmt.Sprintf("members%d", i)) == "on" {
 			selected = append(selected, i)
 		}
 	}
-	var filteredbands []Artist
+	return selected
+}
 
-	for _, band := range ModArtists {
-		firstAlbumint, err := strconv.Atoi(band.FirstAlbum[6:])
-		if err != nil {
-			ErrorHandler(w, r, http.StatusInternalServerError)
-			return
-		}
-		if (band.CreationDate >= creationDateStart && band.CreationDate <= creationDateEnd) && (firstAlbumint >= firstAlbumStart && firstAlbumint <= firstAlbumEnd) {
-
-			if len(selected) >= 1 {
-				for _, n := range selected {
-					if len(band.Members) == n {
-						filteredbands = append(filteredbands, band)
-					}
-				}
-			}
-			if len(selected) == 0 {
-				filteredbands = append(filteredbands, band)
-			}
-		}
+// HandleFilters processes the filter request and returns matching artists
+func HandleFilters(w http.ResponseWriter, r *http.Request) {
+	params, err := ParseFilterParams(r)
+	if err != nil {
+		ErrorHandler(w, r, http.StatusBadRequest)
+		return
 	}
+
+	filteredBands := filterArtists(ModArtists, params)
+
 	tmpl, err := template.ParseFiles("templates/artists.html")
 	if err != nil {
-		fmt.Printf("error: %v", err)
+		fmt.Printf("template error: %v\n", err)
 		ErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
-	tmpl.Execute(w, filteredbands)
+
+	if err := tmpl.Execute(w, filteredBands); err != nil {
+		fmt.Printf("template execution error: %v\n", err)
+		ErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+}
+
+// filterArtists applies the filter criteria to the artist list
+func filterArtists(artists []Artist, params *FilterParams) []Artist {
+	var filtered []Artist
+
+	for _, band := range artists {
+		if !meetsDateCriteria(band, params) {
+			continue
+		}
+
+		if !meetsMembersCriteria(band, params.SelectedMembers) {
+			continue
+		}
+
+		if !meetsLocationCriteria(band, params.Location) {
+			continue
+		}
+
+		filtered = append(filtered, band)
+	}
+
+	return filtered
+}
+
+// meetsDateCriteria checks if the band meets the date range criteria
+func meetsDateCriteria(band Artist, params *FilterParams) bool {
+	firstAlbumYear, err := strconv.Atoi(band.FirstAlbum[6:])
+	if err != nil {
+		return false
+	}
+
+	return band.CreationDate >= params.CreationDateStart &&
+		band.CreationDate <= params.CreationDateEnd &&
+		firstAlbumYear >= params.FirstAlbumStart &&
+		firstAlbumYear <= params.FirstAlbumEnd
+}
+
+// meetsMembersCriteria checks if the band meets the member count criteria
+func meetsMembersCriteria(band Artist, selected []int) bool {
+	if len(selected) == 0 {
+		return true
+	}
+
+	for _, n := range selected {
+		if len(band.Members) == n {
+			return true
+		}
+	}
+	return false
+}
+
+// meetsLocationCriteria checks if the band meets the location criteria
+func meetsLocationCriteria(band Artist, location string) bool {
+	for _, place := range band.Locations {
+		place = cleanString(place)
+		if strings.Contains(place, location) || strings.Contains(location, place) {
+			return true
+		}
+	}
+	return false
 }
