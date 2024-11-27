@@ -42,23 +42,27 @@
 
       <div class="filter-option">
         <label>Creation Date Range</label>
+        <div class="spanner">
+          <span id="creationDateStartValue" class="range-display">1950</span>
+          <span>TO</span>
+          <span id="creationDateEndValue" class="range-display">2024</span>
+        </div>
         <div class="range-container">
           <input type="range" name="creationDateStart" min="1950" max="2024" value="1950" />
-          <span id="creationDateStartValue" class="range-display">1950</span>
-          <span>to</span>
           <input type="range" name="creationDateEnd" min="1950" max="2024" value="2024" />
-          <span id="creationDateEndValue" class="range-display">2024</span>
         </div>
       </div>
 
       <div class="filter-option">
         <label>First Album Range</label>
+        <div class="spanner">
+          <span id="firstAlbumStartValue" class="range-display">1950</span>
+          <span>TO</span>
+          <span id="firstAlbumEndValue" class="range-display">2024</span>
+        </div>
         <div class="range-container">
           <input type="range" name="firstAlbumStart" min="1950" max="2024" value="1950" />
-          <span id="firstAlbumStartValue" class="range-display">1950</span>
-          <span>to</span>
           <input type="range" name="firstAlbumEnd" min="1950" max="2024" value="2024" />
-          <span id="firstAlbumEndValue" class="range-display">2024</span>
         </div>
       </div>
 
@@ -95,7 +99,7 @@
             <label for="members7">7</label>
           </div>
           <div class="checkbox-item">
-            <input type="checkbox" name="members8"  />
+            <input type="checkbox" name="members8" />
             <label for="members8">8</label>
           </div>
         </div>
