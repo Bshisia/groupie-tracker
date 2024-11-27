@@ -145,3 +145,18 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeArtists();
   populateYearFilter();
 });
+
+// Get references to the range input elements and the display spans
+const startRange = document.getElementById('creationDateStart');
+const endRange = document.getElementById('creationDateEnd');
+const startValueDisplay = document.getElementById('creationDateStartValue');
+const endValueDisplay = document.getElementById('creationDateEndValue');
+
+// Update the displayed values when the user moves the sliders
+startRange.addEventListener('input', function() {
+  startValueDisplay.textContent = startRange.value;
+});
+
+endRange.addEventListener('input', function() {
+  endValueDisplay.textContent = endRange.value;
+});
