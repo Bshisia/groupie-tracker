@@ -116,10 +116,6 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// Update range display
-function updateCreationRangeLabel(value) {
-  document.getElementById("creationRangeLabel").textContent = value;
-}
 // Toggle filter menu visibility
 function toggleFilters() {
   document.getElementById("filterMenu").classList.toggle("active");
@@ -146,17 +142,44 @@ document.addEventListener("DOMContentLoaded", () => {
   populateYearFilter();
 });
 
-// Get references to the range input elements and the display spans
-const startRange = document.getElementById('creationDateStart');
-const endRange = document.getElementById('creationDateEnd');
-const startValueDisplay = document.getElementById('creationDateStartValue');
-const endValueDisplay = document.getElementById('creationDateEndValue');
 
-// Update the displayed values when the user moves the sliders
-startRange.addEventListener('input', function() {
-  startValueDisplay.textContent = startRange.value;
-});
+function setupRangeInputs(startInput, endInput, startDisplay, endDisplay) {
+  function updateRanges() {
+      let startVal = parseInt(startInput.value);
+      let endVal = parseInt(endInput.value);
 
-endRange.addEventListener('input', function() {
-  endValueDisplay.textContent = endRange.value;
-});
+      // Ensure end value is always greater than start value
+      if (startVal >= endVal) {
+          if (this === startInput) {
+              endInput.value = Math.min(parseInt(startVal) + 1, endInput.max);
+              endVal = parseInt(endInput.value);
+          } else {
+              startInput.value = Math.max(parseInt(endVal) - 1, startInput.min);
+              startVal = parseInt(startInput.value);
+          }
+      }
+
+      // Update displays
+      startDisplay.textContent = startVal;
+      endDisplay.textContent = endVal;
+  }
+
+  startInput.addEventListener('input', updateRanges);
+  endInput.addEventListener('input', updateRanges);
+}
+
+// Setup Creation Date Range
+setupRangeInputs(
+  document.querySelector('input[name="creationDateStart"]'),
+  document.querySelector('input[name="creationDateEnd"]'),
+  document.getElementById('creationDateStartValue'),
+  document.getElementById('creationDateEndValue')
+);
+
+// Setup First Album Range
+setupRangeInputs(
+  document.querySelector('input[name="firstAlbumStart"]'),
+  document.querySelector('input[name="firstAlbumEnd"]'),
+  document.getElementById('firstAlbumStartValue'),
+  document.getElementById('firstAlbumEndValue')
+);
