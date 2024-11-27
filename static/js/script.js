@@ -183,3 +183,54 @@ setupRangeInputs(
   document.getElementById('firstAlbumStartValue'),
   document.getElementById('firstAlbumEndValue')
 );
+
+
+// Function to update range display values
+function updateRangeDisplays() {
+  document.getElementById('creationDateStartValue').textContent = document.querySelector('input[name="creationDateStart"]').value;
+  document.getElementById('creationDateEndValue').textContent = document.querySelector('input[name="creationDateEnd"]').value;
+  document.getElementById('firstAlbumStartValue').textContent = document.querySelector('input[name="firstAlbumStart"]').value;
+  document.getElementById('firstAlbumEndValue').textContent = document.querySelector('input[name="firstAlbumEnd"]').value;
+}
+
+// Function to reset all filters
+function resetFilters(event) {
+  // Prevent form submission
+  event.preventDefault();
+  
+  // Get the form element
+  const form = document.getElementById('filterMenu');
+  
+  // Reset range inputs to default values
+  form.querySelector('input[name="creationDateStart"]').value = "1950";
+  form.querySelector('input[name="creationDateEnd"]').value = "2024";
+  form.querySelector('input[name="firstAlbumStart"]').value = "1950";
+  form.querySelector('input[name="firstAlbumEnd"]').value = "2024";
+  
+  // Reset all checkboxes
+  const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  
+  // Reset location input
+  form.querySelector('input[name="location"]').value = "";
+  
+  // Update the display values for ranges
+  updateRangeDisplays();
+}
+
+// Add event listeners for range inputs to update displays
+document.addEventListener('DOMContentLoaded', function() {
+  const rangeInputs = document.querySelectorAll('input[type="range"]');
+  rangeInputs.forEach(input => {
+    input.addEventListener('input', updateRangeDisplays);
+  });
+  
+  // Initial update of range displays
+  updateRangeDisplays();
+  
+  // Add event listener to reset button
+  const resetButton = document.querySelector('.reset-filters');
+  resetButton.addEventListener('click', resetFilters);
+});
