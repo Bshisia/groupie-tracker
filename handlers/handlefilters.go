@@ -41,7 +41,6 @@ func HandleFilters(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	var filteredbands []Artist
-	fmt.Println(len(ModArtists))
 
 	for _, band := range ModArtists {
 		firstAlbumint, err := strconv.Atoi(band.FirstAlbum[6:])
