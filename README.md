@@ -1,4 +1,4 @@
-# Groupie-Tracker-Filters
+# Groupie-Tracker
 
 A dynamic web application for music enthusiasts to discover and track their favorite bands and artists. This project provides an interactive interface to filter and search through artist information, concert dates, and locations.
 
